@@ -38,7 +38,7 @@ enum PIN {
 
 //% weight=10 color=#000000 icon="\uf185" block="SP Environment"
 //% groups="['Sensor', 'OLED', 'Motor', 'RGB', 'IOT']"
-namespace naturalScience {
+namespace sp_env {
     let data: number[] = [];
     let _brightness = 255
     let neopixel_buf = pins.createBuffer(16 * 3);
@@ -175,7 +175,7 @@ namespace naturalScience {
 
     //% weight=110
     //% group="Sensor"
-    //% blockId=naturalScience_requstdata block="request data"
+    //% blockId=sp_env_requstdata block="request data"
     export function requstdata(): void {
         pins.i2cWriteNumber(0x10, 8, NumberFormat.Int8LE);
         let _data = pins.i2cReadBuffer(0x10, 22)
@@ -191,7 +191,7 @@ namespace naturalScience {
 
     //% weight=100
     //% group="Sensor"
-    //% blockId=naturalScience_ultraviolet block="ultraviolet"
+    //% blockId=sp_env_ultraviolet block="ultraviolet"
     export function getUltraviolet(): string {
         return data[0] + '.' + data[1];
     }
@@ -202,7 +202,7 @@ namespace naturalScience {
 
     //% weight=99
     //% group="Sensor"
-    //% blockId=naturalScience_light block="light level"
+    //% blockId=sp_env_light block="light level"
     export function getLight(): number {
         return (data[2] << 8) | data[3];
     }
@@ -213,7 +213,7 @@ namespace naturalScience {
 
     //% weight=99
     //% group="Sensor"
-    //% blockId=naturalScience_soil_moisture block="%pin Ping get soil moisture"
+    //% blockId=sp_env_soil_moisture block="%pin Ping get soil moisture"
     export function moisture(pin:PIN): number {
         let _pin;
          switch (pin) {
@@ -230,7 +230,7 @@ namespace naturalScience {
 
     //% weight=98
     //% group="Sensor"
-    //% blockId=naturalScience_sound block="sound level"
+    //% blockId=sp_env_sound block="sound level"
     export function getSound(): number {
         return (data[4] << 8) | data[5];
     }
@@ -241,7 +241,7 @@ namespace naturalScience {
 
     //% weight=97
     //% group="Sensor"
-    //% blockId=naturalScience_watertemp block="water temperature(°C)"
+    //% blockId=sp_env_watertemp block="water temperature(°C)"
     export function getWatertemp(): string {
         return data[6] + '.' + data[7];
     }
@@ -252,7 +252,7 @@ namespace naturalScience {
 
     //% weight=96
     //% group="Sensor"
-    //% blockId=naturalScience_BME block="%mode"
+    //% blockId=sp_env_BME block="%mode"
     export function getBME(mode: BME): string {
         if (mode == 1) {
             if (data[8] == 1) {
@@ -275,7 +275,7 @@ namespace naturalScience {
 
     //% weight=95
     //% group="Sensor"
-    //% blockId=naturalScience_TDS block="TDS"
+    //% blockId=sp_env_TDS block="TDS"
     export function getTDS(): number {
         return (data[16] << 8) | data[17]
     }
@@ -287,7 +287,7 @@ namespace naturalScience {
 
     //% weight=80
     //% group="Sensor"
-    //% blockId=naturalScience_SetTDSK block="set TDS K value|%value"
+    //% blockId=sp_env_SetTDSK block="set TDS K value|%value"
     export function setTDSK(value: number): void {
         let position: number = value.toString().indexOf(".");
         let _value = value * 100;
@@ -304,7 +304,7 @@ namespace naturalScience {
 
     //% weight=93
     //% group="Sensor"
-    //% blockId=naturalScience_TVOC block="%value"
+    //% blockId=sp_env_TVOC block="%value"
     export function getTVOC(mode: CT): number {
         if (mode == 1) {
             return (data[18] << 8) | data[19];
@@ -321,7 +321,7 @@ namespace naturalScience {
 
     //% weight=81
     //% group="Sensor"
-    //% blockId=naturalScience_setBaseline block="set TVOC and CO2 baseline|%value value"
+    //% blockId=sp_env_setBaseline block="set TVOC and CO2 baseline|%value value"
     export function setBaseline(value: number): void {
         let buffer: Buffer = pins.createBuffer(3);
         buffer[0] = 0x20;
@@ -345,7 +345,7 @@ namespace naturalScience {
     //% scolumn.min=1 scolumn.max=16
     //% sleng.min=1 sleng.max=16
     //% inlineInputMode=inline                 
-    //% blockId=naturalScience_OLEDString block="OLED from column |%scolumn to |%sleng in row |%srow display string |%String"
+    //% blockId=sp_env_OLEDString block="OLED from column |%scolumn to |%sleng in row |%srow display string |%String"
     export function setOLEDShowString(scolumn: number, sleng: number, srow: number, String: string): void {
         if (String.length < 17) {
             if (String.length < (sleng - scolumn) + 1) {
@@ -403,7 +403,7 @@ namespace naturalScience {
     //% ncolumn.min=1 ncolumn.max=16
     //% nleng.min=1 nleng.max=16
     //% inlineInputMode=inline
-    //% blockId=naturalScience_OLEDNumber block="OLED from column |%ncolumn to |%nleng in row |%nrow display number|%Number"
+    //% blockId=sp_env_OLEDNumber block="OLED from column |%ncolumn to |%nleng in row |%nrow display number|%Number"
     export function setOLEDShowNumber(ncolumn: number, nleng: number, nrow: number, Number: number): void {
         setOLEDShowString(ncolumn, nleng, nrow, Number.toString());
     }
@@ -421,7 +421,7 @@ namespace naturalScience {
     //% valuerow.min=1 valuerow.max=8
     //% valuecolumnstart.min=1 valuecolumnstart.max=16
     //% valuecolumnstop.min=1 valuecolumnstop.max=16
-    //% blockId=naturalScience_clearOLED block="clear OLED from column|%valuecolumnstart to |%valuecolumnstop in row |%valuerow "
+    //% blockId=sp_env_clearOLED block="clear OLED from column|%valuecolumnstart to |%valuecolumnstop in row |%valuerow "
     export function clearOLED(valuecolumnstart: number, valuecolumnstop: number, valuerow: number): void {
         let datalength: number = (valuecolumnstop - valuecolumnstart) + 1
         if (datalength < 0)
@@ -446,7 +446,7 @@ namespace naturalScience {
     //% weight=88
     //% group="OLED"
     //% valuerow.min=1 valuerow.max=8
-    //% blockId=naturalScience_clearOLEDRow block="clear OLED row|%valuerow"
+    //% blockId=sp_env_clearOLEDRow block="clear OLED row|%valuerow"
     export function clearOLEDRow(valuerow: number): void {
         let buffer: Buffer = pins.createBuffer(19);
         buffer[0] = 0x28
@@ -465,7 +465,7 @@ namespace naturalScience {
     //% weight=89
     //% group="Motor"
     //% _speed.min=0 _speed.max=255
-    //% blockId=naturalScience_mototRun block="control motor direction|%_direction speed|%_speed"
+    //% blockId=sp_env_mototRun block="control motor direction|%_direction speed|%_speed"
     export function mototRun(_direction: DIR, _speed: number): void {
         let buf = pins.createBuffer(3)
         buf[0] = 0x00;
@@ -481,7 +481,7 @@ namespace naturalScience {
 
     //% weight=88
     //% group="Motor"
-    //% blockId=naturalScience_mototStop block="motor stop"
+    //% blockId=sp_env_mototStop block="motor stop"
     export function mototStop(): void {
         let buf = pins.createBuffer(3)
         buf[0] = 0x00;
@@ -834,7 +834,7 @@ namespace naturalScience {
 
     //% weight=100
     //% group="IOT"
-    //% blockId=naturalScience_microIoT_WIFI block="Wi-Fi configure name: %SSID| password：%PASSWORD start connection"
+    //% blockId=sp_env_microIoT_WIFI block="Wi-Fi configure name: %SSID| password：%PASSWORD start connection"
     export function microIoT_WIFI(SSID: string, PASSWORD: string): void {
         init()
         microIoT_setPara(SETWIFI_NAME, SSID)
@@ -890,7 +890,7 @@ namespace naturalScience {
 
     //% weight=70
     //% group="IOT"
-    //% blockId=naturalScience_microIoT_add_topic
+    //% blockId=sp_env_microIoT_add_topic
     //% block="subscribe additional %top |: %IOT_TOPIC"
     //% top.fieldEditor="gridpicker" top.fieldOptions.columns=2
     export function microIoT_add_topic(top: TOPIC, IOT_TOPIC: string): void {
@@ -906,7 +906,7 @@ namespace naturalScience {
 
     //% weight=80
     //% group="IOT"
-    //% blockId=naturalScience_microIoT_SendMessage block="send message %Mess| to |%TOPIC"
+    //% blockId=sp_env_microIoT_SendMessage block="send message %Mess| to |%TOPIC"
     export function microIoT_SendMessage(Mess: string, Topic: TOPIC): void {
         let topic = 0
 
@@ -962,7 +962,7 @@ namespace naturalScience {
 
     //% weight=60
     //% group="IOT"
-    //% blockId=naturalScience_microIoT_MQTT_Event block="on received %top"
+    //% blockId=sp_env_microIoT_MQTT_Event block="on received %top"
     //% top.fieldEditor="gridpicker" top.fieldOptions.columns=2
     export function microIoT_MQTT_Event(top: TOPIC, cb: (message: string) => void) {
         microIoT_callback(top, () => {
@@ -983,7 +983,7 @@ namespace naturalScience {
     //% group="IOT"
     //% receive.fieldEditor="gridpicker" receive.fieldOptions.columns=3
     //% send.fieldEditor="gridpicker" send.fieldOptions.columns=3
-    //% blockId=naturalScience_microIoT_http_IFTTT
+    //% blockId=sp_env_microIoT_http_IFTTT
     //% block="IFTTT configure|event: %EVENT|key: %KEY"
     export function microIoT_http_IFTTT(EVENT: string, KEY: string): void {
         microIoT_WEBHOOKS_EVENT = EVENT
@@ -1034,7 +1034,7 @@ namespace naturalScience {
 
     //% weight=30
     //% group="IOT"
-    //% blockId=naturalScience_microIoT_http_TK_GET
+    //% blockId=sp_env_microIoT_http_TK_GET
     //% expandableArgumentMode="enabled"
     //% inlineInputMode=inline
     //% block="ThingSpeak send value1: %field1||value2: %field2|value3: %field3|value4: %field4|value5: %field5|value6: %field6|value7: %field7 value8: %field8" 
@@ -1071,7 +1071,7 @@ namespace naturalScience {
 
     //% weight=40
     //% group="IOT"
-    //% blockId=naturalScience_microIoT_http_post
+    //% blockId=sp_env_microIoT_http_post
     //% block="IFTTT send value1:%value1|value2:%value2|value3:%value3"
     //% inlineInputMode=inline
     export function microIoT_http_post(value1: string, value2: string, value3: string): void {
