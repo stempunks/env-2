@@ -175,8 +175,8 @@ namespace sp_env {
 
     //% weight=110
     //% group="Sensor"
-    //% blockId=sp_env_requstdata block="request data"
-    export function requstdata(): void {
+    //% blockId=sp_env_requestdata block="request data"
+    export function requestdata(): void {
         pins.i2cWriteNumber(0x10, 8, NumberFormat.Int8LE);
         let _data = pins.i2cReadBuffer(0x10, 22)
         for (let i = 0; i < 26; i++) {
