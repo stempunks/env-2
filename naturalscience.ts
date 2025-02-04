@@ -465,8 +465,8 @@ namespace sp_env {
     //% weight=89
     //% group="Motor"
     //% _speed.min=0 _speed.max=255
-    //% blockId=sp_env_mototRun block="control motor direction|%_direction speed|%_speed"
-    export function mototRun(_direction: DIR, _speed: number): void {
+    //% blockId=sp_env_motorRun block="control motor direction|%_direction speed|%_speed"
+    export function motorRun(_direction: DIR, _speed: number): void {
         let buf = pins.createBuffer(3)
         buf[0] = 0x00;
         buf[1] = _direction;
@@ -481,8 +481,8 @@ namespace sp_env {
 
     //% weight=88
     //% group="Motor"
-    //% blockId=sp_env_mototStop block="motor stop"
-    export function mototStop(): void {
+    //% blockId=sp_env_motorStop block="motor stop"
+    export function motorStop(): void {
         let buf = pins.createBuffer(3)
         buf[0] = 0x00;
         buf[1] = 0;
